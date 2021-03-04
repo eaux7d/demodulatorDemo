@@ -6,47 +6,123 @@
 
 int main(int argc, char * argv[])
 {
-
+	//Input
 	std::string filePath;
+	std::string outputFile;
 	char mode = 'd';
 	int freq = 24000;
 
-	if (argc > 2)
+	//args
 	{
-		for (int i = 1; i != argc - 1; ++i)
+		if (argc > 2)
 		{
-			//filepath
-			if (argv[i][1] == 'f')
-				filePath = std::string(argv[i + 1]);
+			for (int i = 1; i != argc - 1; ++i)
+			{
+				//filepath
+				if (argv[i][1] == 'f')
+					filePath = std::string(argv[i + 1]);
 
-			//mode
-			if (argv[i][1] == 'm')
-				mode = argv[i + 1][0];
+				//mode
+				if (argv[i][1] == 'm')
+					mode = argv[i + 1][0];
 
-			//freq (rate)
-			if (argv[i][1] == 'r')
-				freq = std::stoi(std::string(argv[i + 1]));
+				//freq (rate)
+				if (argv[i][1] == 'r')
+					freq = std::stoi(std::string(argv[i + 1]));
+
+				//outputFile
+				if (argv[i][1] == 'o')
+					outputFile = std::string(argv[i + 1]);
+			}
 		}
 	}
 
-	std::fstream fin("data\\am.flt",std::fstream::binary|std::fstream::in);
-	//std::ofstream fout("E:/stc/1-AM/out.txt");
+	std::fstream fin(filePath, std::fstream::binary | std::fstream::in);
 
-	if (!fin)
+	//checks
 	{
-		std::cerr << "Can't open file!";
-		return 1;
+		if (filePath.empty())
+		{
+			std::cerr << "The input file is not specified! Shutting down!\n";
+			return 1;
+		}
+
+		if (!fin)
+		{
+			std::cerr << "Can't open input file! Shutting down!\n";
+			return 1;
+		}
+
+		if (outputFile.empty())
+		{
+			std::cerr << "The output dir is not specified! Will use out.txt near exe!\n";
+			outputFile = "out.txt";
+		}
 	}
 
-	float r = 0.f, i = 0.f;
+	std::fstream fout(outputFile);
 
-	while (!fin.eof())
+	IQvec input;
+
+	//input
 	{
-		fin.read((char *)&r, sizeof(float));
-		fin.read((char *)&i, sizeof(float));
+		input.reserve(1000);
 
-		//fout << r << " " << i << "\n";
+		while (!fin.eof())
+		{
+			float i, q;
+
+			fin.read((char *)&i, sizeof(float));
+			fin.read((char *)&q, sizeof(float));
+
+			input.push_back(IQElement(i, q));
+		}
 	}
+
+	float * output = new float[input.size()];
+
+	bool doOutput = true;
+	//algo
+	{
+		switch (mode)
+		{
+			case ('a'):
+			{
+
+				demodulateAm(output, input);
+
+				break;
+			}
+
+			case ('f'):
+			{
+				demodulateFm(output, input);
+
+				break;
+			}
+
+			case ('d'):
+			default:
+			{
+				std::cerr << "No algo choosen!\n";
+				doOutput = false;
+				break;
+			}
+		}
+	}
+
+
+	{
+		if (doOutput)
+		{
+			for (int i = 0; i != input.size(); ++i)
+				fout << output[i] << "\n";
+		}
+
+		fout.close();
+	}
+
+	delete[] output;
 
 	return 0;
 }
