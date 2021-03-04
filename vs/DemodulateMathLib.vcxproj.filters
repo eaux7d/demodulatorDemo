@@ -6,6 +6,9 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="E:\stc\1-AM\src\lib\DemodulateLibMath.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="E:\stc\1-AM\src\lib\DemodulateLibTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
