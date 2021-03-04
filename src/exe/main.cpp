@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
 		}
 	}
 
-	std::fstream fout(outputFile);
+	std::fstream fout(outputFile,std::fstream::out);
 
 	IQvec input;
 

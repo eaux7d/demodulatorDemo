@@ -272,6 +272,7 @@ __pycache__/
 #*.filters
 #*.user
 
+vs/
 vs/CMakeFiles
 vs/cmake_install.cmake
 *.exe
