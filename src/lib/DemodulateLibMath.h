@@ -1,6 +1,9 @@
 #pragma once
 #include "DemodulateLibTypes.h"
 
+//Core
+void demodulateAm(Flvec & output,const IQvec & source);
+void demodulateFm(Flvec & output,const IQvec & source);
 
-void demodulateAm(float * output, IQvec const & source);
-void demodulateFm(float * output, IQvec const & source);
+//HelpMath
+IQElement RotateElement(const IQElement & a, const IQElement & b);

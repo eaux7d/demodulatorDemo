@@ -3,18 +3,19 @@
 
 struct IQElement
 {
-	IQElement(float const & i, float const & q):
+	IQElement() {}
+	IQElement(const float & i,const float & q):
 		I(i),Q(q){}
 
 	~IQElement(){}
 
-	IQElement(IQElement const & e)
+	IQElement(const IQElement & e)
 	{
 		I = e.I;
 		Q = e.Q;
 	}
 
-	IQElement & operator = (IQElement const & e)
+	IQElement & operator = (const IQElement & e)
 	{
 		if (this != &e)
 		{
@@ -24,8 +25,25 @@ struct IQElement
 		return *this;
 	}
 
+	IQElement GetConjugated() const
+	{
+		return IQElement(I, -Q);
+	}
+
+	IQElement & Conjugate()
+	{
+		Q = -Q;
+		return *this;
+	}
+
+	float getPhase() const
+	{
+		return atan2f(Q, I);
+	}
+
 	float I;
 	float Q;
 };
 
 typedef std::vector<IQElement> IQvec;
+typedef std::vector <float> Flvec;

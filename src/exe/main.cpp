@@ -1,8 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "../lib/DemodulateLibTypes.h" 
-#include "../lib/DemodulateLibMath.h" 
+#include "lib/DemodulateLibTypes.h" 
+#include "lib/DemodulateLibMath.h" 
 
 int main(int argc, char * argv[])
 {
@@ -66,20 +66,18 @@ int main(int argc, char * argv[])
 
 	//input
 	{
-		input.reserve(1000);
+		int size = 0;
 
-		while (!fin.eof())
-		{
-			float i, q;
+		fin.seekg(0, std::ifstream::end);
+		size = fin.tellg() / (sizeof(IQElement));
+		input.resize(size);
+		fin.seekg(0, std::ifstream::beg);
 
-			fin.read((char *)&i, sizeof(float));
-			fin.read((char *)&q, sizeof(float));
-
-			input.push_back(IQElement(i, q));
-		}
+		fin.read((char *)&input[0], sizeof(IQElement) * size);
 	}
 
-	float * output = new float[input.size()];
+	Flvec output;
+	output.resize(input.size());
 
 	bool doOutput = true;
 	//algo
@@ -121,8 +119,6 @@ int main(int argc, char * argv[])
 
 		fout.close();
 	}
-
-	delete[] output;
 
 	return 0;
 }
