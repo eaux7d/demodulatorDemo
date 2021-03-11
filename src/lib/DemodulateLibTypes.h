@@ -19,11 +19,8 @@ struct IQElement
 
 	~IQElement(){}
 
-	IQElement(const IQElement & e)
-	{
-		I = e.I;
-		Q = e.Q;
-	}
+	IQElement(const IQElement & e):
+		I(e.I),Q(e.Q){}
 
 	IQElement & operator = (const IQElement & e)
 	{

@@ -1,7 +1,8 @@
 #include "Tasks.h"
 #include <iostream>
+#include <vector>
+#include <cmath>
 
-//#1 - Diffs
 template <typename T>
 void Diff(const std::vector<T> & src, std::vector<T> & out)
 {
@@ -64,16 +65,16 @@ void PhaseMod(const Ivec & src, IQvec & out, size_t M)
 		{
 			if (c % 2 != 0)
 			{
-				std::cerr << "Wrong input data! M should be represented as 2^N! \n";
+				std::cerr << "M should be represented as 2^N! \n";
 				return;
 			}
 		}
 
 		for (size_t i = 0; i != src.size(); ++i)
 		{
-			if (src[i] < 0 || src[i] > M - 1)
+			if (src[i] < 0 || src[i] > (int)(M - 1))
 			{
-				std::cerr << "Wrong input data! Input vector should consist of values < M! \n";
+				std::cerr << "Input vector should consist of values < M! \n";
 				return;
 			}
 		}
@@ -115,13 +116,13 @@ void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
 				maxVal = src[i];
 				maxValIdx = i;
 
-				idx_out.push_back(maxVal);
+				idx_out.push_back(maxValIdx);
 			}
 				
 		}
 		else
 		{
-			//ok, maybe we are out of it now?
+			//ok, maybe we are out of zone now?
 			if (src[i] - src[i - win] < 0.0f) 
 			{
 				//if so, set the last element max idx we found
