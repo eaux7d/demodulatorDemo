@@ -3,6 +3,7 @@
 #include <string>
 #include "lib/DemodulateLibTypes.h" 
 #include "lib/DemodulateLibMath.h" 
+#include "lib/fir_sr1M_cut_50k_x2=150k.h"
 
 int main(int argc, char * argv[])
 {
@@ -94,6 +95,7 @@ int main(int argc, char * argv[])
 
 			case ('f'):
 			{
+				ApplyFilter(input, &fir_sr1M_cut50k_x2_150k::B[0], fir_sr1M_cut50k_x2_150k::size);
 				demodulateFm(output, input);
 
 				break;
