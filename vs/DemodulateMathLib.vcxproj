@@ -56,7 +56,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\stc\1-AM\vs</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">E:\stc\1-AM\vs\Debug</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DemodulateMathLib.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">DemodulateMathLib</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.lib</TargetExt>
@@ -261,6 +261,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\lib\fir_sr1M_cut_50k_x2=150k.h" />
     <ClInclude Include="E:\stc\1-AM\src\lib\DemodulateLibMath.h" />
     <ClCompile Include="E:\stc\1-AM\src\lib\DemodulateLibMath.cpp" />
     <ClInclude Include="E:\stc\1-AM\src\lib\DemodulateLibTypes.h" />

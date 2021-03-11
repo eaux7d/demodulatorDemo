@@ -23,6 +23,8 @@
  *   Use the Filter Design & Analysis Tool to design accurate
  *   single-precision filter coefficients.
  */
+
+#pragma once
 namespace fir_sr1M_cut50k_x2_150k
 {
 	constexpr int size = 128;
@@ -54,6 +56,7 @@ namespace fir_sr1M_cut50k_x2_150k
   -3.538601959e-06,1.362701823e-06,3.224846068e-06, 3.07019468e-06,2.033927785e-06,
   9.826692349e-07,3.415036076e-07,1.018809357e-07
 	};
+
 }
 
 

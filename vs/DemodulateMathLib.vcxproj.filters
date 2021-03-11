@@ -12,6 +12,9 @@
     <ClInclude Include="E:\stc\1-AM\src\lib\DemodulateLibTypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\lib\fir_sr1M_cut_50k_x2=150k.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="E:\stc\1-AM\src\CMakeLists.txt" />

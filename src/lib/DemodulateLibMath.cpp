@@ -1,6 +1,6 @@
 #include "DemodulateLibMath.h"
 
-void demodulateAm(Flvec & output,const  IQvec & source)
+void DemodulateAm(Flvec & output,const  IQvec & source)
 {
 	for (int i = 0; i != source.size(); ++i)
 	{
@@ -8,7 +8,7 @@ void demodulateAm(Flvec & output,const  IQvec & source)
 	}
 }
 
-void demodulateFm(Flvec & output,const IQvec & source)
+void DemodulateFm(Flvec & output,const IQvec & source)
 {
 	for (int i = 0; i != source.size() - 1; ++i)
 	{
@@ -39,3 +39,4 @@ void ApplyFilter(IQvec & src, const float * filter, const int & size)
 		src[i] = e;
 	}
 }
+
