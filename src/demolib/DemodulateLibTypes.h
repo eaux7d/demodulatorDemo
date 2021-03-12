@@ -7,11 +7,6 @@ struct IQElement;
 //Constants
 constexpr float PI = 3.14159265358979323846f;
 
-typedef std::vector<IQElement> IQvec;
-typedef std::vector <float> Flvec;
-typedef std::vector<int> Ivec;
-typedef std::vector<size_t> STvec;
-
 struct IQElement
 {
 	IQElement() {}

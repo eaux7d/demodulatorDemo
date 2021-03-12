@@ -58,7 +58,7 @@ int CountMoreThan(const std::vector<T> & src, const T & val)
 
 }
 
-void PhaseMod(const Ivec & src, IQvec & out, size_t M)
+void PhaseMod(const std::vector<int> & src, std::vector<IQElement> & out, size_t M)
 {
 	int c = M;
 
@@ -94,7 +94,7 @@ void PhaseMod(const Ivec & src, IQvec & out, size_t M)
 
 }
 
-void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
+void FindLocalPeaks(const std::vector<float> & src, std::vector<float> & idx_out, size_t win, float level)
 {
 	if (src.size() < 2 * win)
 	{

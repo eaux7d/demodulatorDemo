@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
 
 	std::fstream fout(outputFile,std::fstream::out);
 
-	IQvec input;
+	std::vector<IQElement> input;
 
 	//input
 	{
@@ -77,7 +77,7 @@ int main(int argc, char * argv[])
 		fin.read((char *)&input[0], sizeof(IQElement) * size);
 	}
 
-	Flvec output;
+	std::vector<float> output;
 	output.resize(input.size());
 
 	bool doOutput = true;

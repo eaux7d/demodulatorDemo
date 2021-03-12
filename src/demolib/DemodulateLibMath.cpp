@@ -1,7 +1,7 @@
 #include "DemodulateLibMath.h"
 #include <cmath>
 
-void DemodulateAm(Flvec & output,const  IQvec & source)
+void DemodulateAm(std::vector <float> & output,const  std::vector<IQElement> & source)
 {
 	for (size_t i = 0; i != source.size(); ++i)
 	{
@@ -9,7 +9,7 @@ void DemodulateAm(Flvec & output,const  IQvec & source)
 	}
 }
 
-void DemodulateFm(Flvec & output,const IQvec & source)
+void DemodulateFm(std::vector <float> & output,const std::vector<IQElement> & source)
 {
 	for (size_t i = 0; i != source.size() - 1; ++i)
 	{
@@ -22,7 +22,7 @@ IQElement RotateElement(const IQElement & a, const IQElement & b)
 	return IQElement(a.I * b.I - a.Q * b.Q, a.Q * b.I + a.I * b.Q);
 }
 
-void ApplyFilter(IQvec & src, const float * filter, const int & size)
+void ApplyFilter(std::vector<IQElement> & src, const float * filter, const int & size)
 {
 	if (!filter)
 		return;
