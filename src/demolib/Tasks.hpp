@@ -88,7 +88,7 @@ void PhaseMod(const Ivec & src, IQvec & out, size_t M)
 
 	for (size_t i = 0; i != src.size(); ++i)
 	{
-		float angle = src[i] * PI * 2.0f / M;
+		float angle = src[i] * PI * 2.0f / (float) M;
 		out[i] = IQElement(cosf(angle), sinf(angle));
 	}
 
