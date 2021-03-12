@@ -62,7 +62,7 @@ namespace Tasks
 
 	}
 
-	void psk_mod(const std::vector<int> & v_in, std::vector<IQElement> & v_out, size_t M)
+	void psk_mod(const std::vector<int> & v_in, std::vector<IQF> & v_out, size_t M)
 	{
 		int c = M;
 

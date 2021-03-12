@@ -70,3 +70,5 @@ struct IQElement
 	};
 
 };
+
+typedef IQElement IQF;
