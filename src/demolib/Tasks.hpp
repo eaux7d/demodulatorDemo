@@ -1,4 +1,4 @@
-#include "Tasks.h"
+#include "DemodulateLibTypes.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -96,7 +96,7 @@ void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
 	if (src.size() < 2 * win)
 	{
 		std::cerr << "The source signal is too short! \n";
-		return;			
+		return;
 	}
 
 	bool isInLocalMaxZone = false;
@@ -105,7 +105,7 @@ void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
 
 	for (size_t i = win; i != src.size() - win; ++i)
 	{
-		
+
 		if (!isInLocalMaxZone)
 		{
 			//are we getting into local max zone?
@@ -118,18 +118,18 @@ void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
 
 				idx_out.push_back(maxValIdx);
 			}
-				
+
 		}
 		else
 		{
 			//ok, maybe we are out of zone now?
-			if (src[i] - src[i - win] < 0.0f) 
+			if (src[i] - src[i - win] < 0.0f)
 			{
 				//if so, set the last element max idx we found
 				isInLocalMaxZone = false;
 				idx_out.back() = maxValIdx;
 			}
-				
+
 		}
 
 		if (isInLocalMaxZone)
@@ -141,11 +141,12 @@ void FindLocalPeaks(const Flvec & src, STvec & idx_out, size_t win, float level)
 				maxValIdx = i;
 			}
 		}
-		
+
 	}
 
 	//if we didn't get out of local max zone should set max at last!
-	if(isInLocalMaxZone)
+	if (isInLocalMaxZone)
 		idx_out.back() = maxValIdx;
 
 }
+

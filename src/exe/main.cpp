@@ -1,9 +1,9 @@
 #include <fstream>
 #include <iostream>
 #include <string>
-#include "lib/DemodulateLibTypes.h" 
-#include "lib/DemodulateLibMath.h" 
-#include "lib/fir_sr1M_cut_50k_x2=150k.h"
+#include "demolib/DemodulateLibTypes.h" 
+#include "demolib/DemodulateLibMath.h" 
+#include "demolib/fir_sr1M_cut_50k_x2=150k.h"
 
 int main(int argc, char * argv[])
 {

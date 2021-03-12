@@ -10,13 +10,12 @@ endif(CMAKE_COMPILER_IS_GNUCXX)
 
 ADD_LIBRARY(DemodulateMathLib STATIC 
 
-	lib/DemodulateLibMath.h 
-	lib/Tasks.h
-	lib/DemodulateLibTypes.h 
-	lib/fir_sr1M_cut_50k_x2=150k.h
+	demolib/DemodulateLibMath.h 
+	demolib/DemodulateLibTypes.h 
+	demolib/fir_sr1M_cut_50k_x2=150k.h
 	
-	lib/DemodulateLibMath.cpp 
-	lib/Tasks.cpp
+	demolib/DemodulateLibMath.cpp 
+	demolib/Tasks.hpp
 	
 	)
 
