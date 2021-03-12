@@ -88,7 +88,7 @@ void PhaseMod(const std::vector<int> & src, std::vector<IQElement> & out, size_t
 
 	for (size_t i = 0; i != src.size(); ++i)
 	{
-		float angle = src[i] * PI * 2.0f / (float) M;
+		float angle = src[i] * PI_f * 2.0f / (float) M;
 		out[i] = IQElement(cosf(angle), sinf(angle));
 	}
 
