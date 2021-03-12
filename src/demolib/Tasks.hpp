@@ -1,155 +1,161 @@
+#pragma once
 #include "DemodulateLibTypes.h"
 #include <iostream>
 #include <vector>
 #include <cmath>
 
-template <typename T>
-void Diff(const std::vector<T> & src, std::vector<T> & out)
+//this namespace consists of functions for real projects
+namespace Tasks
 {
-	if (src.size() < 2)
+	template <typename T>
+	void diff(const std::vector<T> & v_in, std::vector<T> & v_out)
 	{
-		std::cerr << "The source vector's size is lower 2! Need at least 2 element for diff operation!\n";
-		return;
-	}
-
-	if (out.size() < src.size())
-	{
-		out.resize(src.size());
-	}
-
-	for (size_t i = 0; i != src.size() - 1; ++i)
-		out[i] = src[i + 1] - src[i];
-
-}
-
-template <typename T>
-void Rectpulse(const std::vector<T> & src, std::vector<T> & out, size_t n)
-{
-	if (src.empty())
-	{
-		std::cerr << "The source vector is empty!\n";
-		return;
-	}
-
-	out.resize(src.size() * n);
-
-	for (size_t i = 0; i != src.size(); ++i)
-	{
-		for (size_t j = 0; j != n; ++j)
+		if (v_in.size() < 2)
 		{
-			out[i * n + j] = src[i];
-		}
-	}
-
-}
-
-template <typename T>
-int CountMoreThan(const std::vector<T> & src, const T & val)
-{
-	int c = 0;
-
-	for (size_t i = 0; i != src.size(); ++i)
-		if (src[i] > val)
-		{
-			++c;
+			std::cerr << "The source vector's size is lower 2! Need at least 2 element for diff operation!\n";
+			return;
 		}
 
-	return c;
-
-}
-
-void PhaseMod(const std::vector<int> & src, std::vector<IQElement> & out, size_t M)
-{
-	int c = M;
-
-	//checks
-	{
-		while (c != 1)
+		if (v_out.size() < v_in.size())
 		{
-			if (c % 2 != 0)
+			v_out.resize(v_in.size());
+		}
+
+		for (size_t i = 0; i != v_in.size() - 1; ++i)
+			v_out[i] = v_in[i + 1] - v_in[i];
+
+	}
+
+	template <typename T>
+	void rectpulse(const std::vector<T> & v_in, std::vector<T> & v_out, size_t n)
+	{
+		if (v_in.empty())
+		{
+			std::cerr << "The source vector is empty!\n";
+			return;
+		}
+
+		v_out.resize(v_in.size() * n);
+
+		for (size_t i = 0; i != v_in.size(); ++i)
+		{
+			for (size_t j = 0; j != n; ++j)
 			{
-				std::cerr << "M should be represented as 2^N! \n";
-				return;
+				v_out[i * n + j] = v_in[i];
 			}
 		}
 
-		for (size_t i = 0; i != src.size(); ++i)
-		{
-			if (src[i] < 0 || src[i] > (int)(M - 1))
-			{
-				std::cerr << "Input vector should consist of values < M! \n";
-				return;
-			}
-		}
 	}
 
-	if (out.size() < src.size())
-		out.resize(src.size());
-
-	for (size_t i = 0; i != src.size(); ++i)
+	template <typename T>
+	int count_more_than(std::vector<T> & v_in,T val)
 	{
-		float angle = src[i] * PI_f * 2.0f / (float) M;
-		out[i] = IQElement(cosf(angle), sinf(angle));
-	}
+		int c = 0;
 
-}
-
-void FindLocalPeaks(const std::vector<float> & src, std::vector<float> & idx_out, size_t win, float level)
-{
-	if (src.size() < 2 * win)
-	{
-		std::cerr << "The source signal is too short! \n";
-		return;
-	}
-
-	bool isInLocalMaxZone = false;
-	float maxVal = 0.f;
-	size_t maxValIdx = 0;
-
-	for (size_t i = win; i != src.size() - win; ++i)
-	{
-
-		if (!isInLocalMaxZone)
-		{
-			//are we getting into local max zone?
-			if ((src[i] - src[i - win] > level) && (src[i] - src[i + win] > level))
+		for (size_t i = 0; i != v_in.size(); ++i)
+			if (v_in[i] > val)
 			{
-				isInLocalMaxZone = true;
+				++c;
+			}
 
-				maxVal = src[i];
-				maxValIdx = i;
+		return c;
 
-				idx_out.push_back(maxValIdx);
+	}
+
+	void psk_mod(const std::vector<int> & v_in, std::vector<IQElement> & v_out, size_t M)
+	{
+		int c = M;
+
+		//checks
+		{
+			while (c != 1)
+			{
+				if (c % 2 != 0)
+				{
+					std::cerr << "M should be represented as 2^N! \n";
+					return;
+				}
+			}
+
+			for (size_t i = 0; i != v_in.size(); ++i)
+			{
+				if (v_in[i] < 0 || v_in[i] > (int)(M - 1))
+				{
+					std::cerr << "Input vector should consist of values < M! \n";
+					return;
+				}
+			}
+		}
+
+		if (v_out.size() < v_in.size())
+			v_out.resize(v_in.size());
+
+		for (size_t i = 0; i != v_in.size(); ++i)
+		{
+			float angle = v_in[i] * PI_f * 2.0f / (float)M;
+			v_out[i] = IQElement(cosf(angle), sinf(angle));
+		}
+
+	}
+
+	void FindLocalPeaks(const std::vector<float> & v_in, std::vector<size_t> & idx_peak, size_t len_win, float level)
+	{
+		if (v_in.size() < 2 * len_win)
+		{
+			std::cerr << "The source signal is too short! \n";
+			return;
+		}
+
+		bool isInLocalMaxZone = false;
+		float maxVal = 0.f;
+		size_t maxValIdx = 0;
+
+		for (size_t i = len_win; i != v_in.size() - len_win; ++i)
+		{
+
+			if (!isInLocalMaxZone)
+			{
+				//are we getting into local max zone?
+				if ((v_in[i] - v_in[i - len_win] > level) && (v_in[i] - v_in[i + len_win] > level))
+				{
+					isInLocalMaxZone = true;
+
+					maxVal = v_in[i];
+					maxValIdx = i;
+
+					idx_peak.push_back(maxValIdx);
+				}
+
+			}
+			else
+			{
+				//ok, maybe we are out of zone now?
+				if (v_in[i] - v_in[i - len_win] < 0.0f)
+				{
+					//if so, set the last element max idx we found
+					isInLocalMaxZone = false;
+					idx_peak.back() = maxValIdx;
+				}
+
+			}
+
+			if (isInLocalMaxZone)
+			{
+				//if we are in it, let's get max!
+				if (v_in[i] > maxVal)
+				{
+					maxVal = v_in[i];
+					maxValIdx = i;
+				}
 			}
 
 		}
-		else
-		{
-			//ok, maybe we are out of zone now?
-			if (src[i] - src[i - win] < 0.0f)
-			{
-				//if so, set the last element max idx we found
-				isInLocalMaxZone = false;
-				idx_out.back() = maxValIdx;
-			}
 
-		}
-
+		//if we didn't get v_out of local max zone should set max at last!
 		if (isInLocalMaxZone)
-		{
-			//if we are in it, let's get max!
-			if (src[i] > maxVal)
-			{
-				maxVal = src[i];
-				maxValIdx = i;
-			}
-		}
+			idx_peak.back() = maxValIdx;
 
 	}
-
-	//if we didn't get out of local max zone should set max at last!
-	if (isInLocalMaxZone)
-		idx_out.back() = maxValIdx;
 
 }
 

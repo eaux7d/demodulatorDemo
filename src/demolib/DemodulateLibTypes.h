@@ -4,6 +4,7 @@
 
 struct IQElement;
 
+
 //Constants
 constexpr float PI_f = 3.14159265358979323846f;
 
