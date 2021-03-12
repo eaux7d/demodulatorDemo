@@ -23,6 +23,8 @@ namespace Tasks
 		return true;
 	}
 
+	//the output signal should have at least the length 
+	//of source signal - 1 (or it will be memory corruption)
 	template <typename T>
 	void diff(const std::vector<T> & v_in, std::vector<T> & v_out)
 	{
@@ -32,9 +34,9 @@ namespace Tasks
 			return;
 		}
 
-		if (v_out.size() < v_in.size())
+		if (v_out.size() < v_in.size() - 1)
 		{
-			v_out.resize(v_in.size());
+			v_out.resize(v_in.size() - 1);
 		}
 
 		for (size_t i = 0; i != v_in.size() - 1; ++i)
@@ -42,8 +44,9 @@ namespace Tasks
 
 	}
 
+	//the output signal's size is source's signal size * nsamp
 	template <typename T>
-	void rectpulse(const std::vector<T> & v_in, std::vector<T> & v_out, size_t n)
+	void rectpulse(const std::vector<T> & v_in, std::vector<T> & v_out, size_t nsamp)
 	{
 		if (v_in.empty())
 		{
@@ -78,6 +81,7 @@ namespace Tasks
 
 	}
 
+	//the output shoud have size that at least is the same as source's size
 	void psk_mod(const std::vector<int> & v_in, std::vector<IQF> & v_out, size_t M)
 	{
 		//checks
@@ -164,7 +168,6 @@ namespace Tasks
 		//if we didn't get v_out of local max zone should set max at last!
 		if (isInLocalMaxZone)
 			idx_peak.back() = maxValIdx;
-
 	}
 
 }
