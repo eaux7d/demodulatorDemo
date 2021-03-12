@@ -7,6 +7,22 @@
 //this namespace consists of functions for real projects
 namespace Tasks
 {
+	bool if_baseof_two(size_t M)
+	{
+		size_t c = M;
+
+		while (c != 1)
+		{
+			if (c % 2 != 0)
+			{
+				std::cerr << "M should be represented as 2^N! \n";
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	template <typename T>
 	void diff(const std::vector<T> & v_in, std::vector<T> & v_out)
 	{
@@ -48,7 +64,7 @@ namespace Tasks
 	}
 
 	template <typename T>
-	int count_more_than(std::vector<T> & v_in,T val)
+	int count_more_than(const std::vector<T> & v_in,T val)
 	{
 		int c = 0;
 
@@ -64,27 +80,21 @@ namespace Tasks
 
 	void psk_mod(const std::vector<int> & v_in, std::vector<IQF> & v_out, size_t M)
 	{
-		int c = M;
-
 		//checks
 		{
-			while (c != 1)
+			if (!if_baseof_two(M))
 			{
-				if (c % 2 != 0)
-				{
-					std::cerr << "M should be represented as 2^N! \n";
-					return;
-				}
+				return;
 			}
 
-			for (size_t i = 0; i != v_in.size(); ++i)
+			int c = count_more_than(v_in, (int)M);
+
+			if (c != 0)
 			{
-				if (v_in[i] < 0 || v_in[i] > (int)(M - 1))
-				{
-					std::cerr << "Input vector should consist of values < M! \n";
-					return;
-				}
+				std::cerr << "Input vector should consist of values < M! \n";
+				return;
 			}
+
 		}
 
 		if (v_out.size() < v_in.size())
