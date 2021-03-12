@@ -27,7 +27,7 @@ void ApplyFilter(IQvec & src, const float * filter, const int & size)
 	if (!filter)
 		return;
 
-	for (size_t i = size; i != src.size(); ++i)
+	for (int i = size; i != src.size(); ++i)
 	{
 
 		IQElement e(0.f, 0.f);
