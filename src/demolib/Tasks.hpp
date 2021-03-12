@@ -9,7 +9,7 @@ void Diff(const std::vector<T> & src, std::vector<T> & out)
 	if (src.size() < 2)
 	{
 		std::cerr << "The source vector's size is lower 2! Need at least 2 element for diff operation!\n";
-		return 0;
+		return;
 	}
 
 	if (out.size() < src.size())
