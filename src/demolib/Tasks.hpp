@@ -49,7 +49,10 @@ int CountMoreThan(const std::vector<T> & src, const T & val)
 	int c = 0;
 
 	for (size_t i = 0; i != src.size(); ++i)
-		if (src[i] > val) ++c;
+		if (src[i] > val)
+		{
+			++c;
+		}
 
 	return c;
 
