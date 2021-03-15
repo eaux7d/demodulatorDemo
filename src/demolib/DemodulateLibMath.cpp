@@ -1,7 +1,7 @@
 #include "DemodulateLibMath.h"
 #include <cmath>
 
-void DemodulateAm(std::vector <float> & output,const  std::vector<IQElement> & source)
+void DemodulateAm(std::vector <float> & output, std::vector<IQElement> & source)
 {
 	for (size_t i = 0; i != source.size(); ++i)
 	{
@@ -9,7 +9,7 @@ void DemodulateAm(std::vector <float> & output,const  std::vector<IQElement> & s
 	}
 }
 
-void DemodulateFm(std::vector <float> & output,const std::vector<IQElement> & source)
+void DemodulateFm(std::vector <float> & output, std::vector<IQElement> & source)
 {
 	for (size_t i = 0; i != source.size() - 1; ++i)
 	{

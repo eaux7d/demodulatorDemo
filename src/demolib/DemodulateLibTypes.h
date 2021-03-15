@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <cmath>
+#include <fstream>
 
 struct IQElement;
 
@@ -70,5 +71,12 @@ struct IQElement
 	};
 
 };
+
+
+inline std::ostream & operator<<(std::ostream & s, const IQElement & e)
+{
+	s << e.Re << " " << e.Im << "\n";
+	return s;
+}
 
 typedef IQElement IQF;

@@ -24,7 +24,12 @@ SET(APP_EXE DemodulationDemo)
 include_directories(.)
 
 ADD_EXECUTABLE(${APP_EXE}
-				exe/main.cpp)
+				
+				exe/ProceedInput.h
+				
+				exe/ProceedInput.cpp
+				exe/main.cpp
+				)
 				
 TARGET_LINK_LIBRARIES( ${APP_EXE}
                 DemodulateMathLib )

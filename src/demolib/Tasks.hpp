@@ -54,13 +54,13 @@ namespace Tasks
 			return;
 		}
 
-		v_out.resize(v_in.size() * n);
+		v_out.resize(v_in.size() * nsamp);
 
 		for (size_t i = 0; i != v_in.size(); ++i)
 		{
-			for (size_t j = 0; j != n; ++j)
+			for (size_t j = 0; j != nsamp; ++j)
 			{
-				v_out[i * n + j] = v_in[i];
+				v_out[i * nsamp + j] = v_in[i];
 			}
 		}
 
