@@ -3,9 +3,10 @@
 
 void DemodulateAm(std::vector <float> & output, std::vector<IQElement> & source)
 {
+
 	for (size_t i = 0; i != source.size(); ++i)
 	{
-		output[i] = sqrtf(source[i].I * source[i].I + source[i].Q * source[i].Q);
+		output[i] = source[i].Magnitude();
 	}
 }
 

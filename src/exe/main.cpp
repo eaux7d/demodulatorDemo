@@ -5,6 +5,7 @@
 #include "demolib/DemodulateLibMath.h" 
 #include "demolib/fir_sr1M_cut_50k_x2=150k.h"
 #include "exe/ProceedInput.h"
+#include "demolib/Tasks.hpp"
 
 int main(int argc, char * argv[])
 {
@@ -12,9 +13,7 @@ int main(int argc, char * argv[])
 	std::string filePath;
 	std::string outputFile;
 	char mode = 'd';
-	char mode2 = 'd';
 
-	float param = 0.0f;
 	//args
 	{
 		if (argc > 2)
@@ -28,40 +27,15 @@ int main(int argc, char * argv[])
 				//mode
 				if (argv[i][1] == 'm')
 				{
-					if (!(argv[i + 1][0] && argv[i + 1][1]))
+					if (!(argv[i + 1][0]))
 					{
 						mode = 'd';
 						break;
 					}
 
-					//mode - may be i - iqf signal or f - float.  
+					//f - float, i - iq signal
 					mode = argv[i + 1][0];
-
-					//mode2 - the type of conversion. differs for iqf and f signals.
-					//i (iqf):
-					//a - amplitude demodulation
-					//f - freq demodulation
-					//o - output to txt with no conversion
-					//f:
-					//d - diff function
-					//r - rectpulse
-					//c - count more than
-					//p - psk_mod
-					//f - find_local_peaks.
-					//example: -m ff means we give float signal for input and want the find_local_peaks conversion
-					//example2: -m ia means we give iq signal for input and want amplitude demodulation conversion
-
-					mode2 = argv[i + 1][1];
-
-					//float param for input
-					//some tasks need params
-					//for example -m fc4.5 means that we give as input float with count_more_than proceed and 4.5f as param 
-					if (argv[i + 1][2])
-					{
-						param = std::stof(std::string(&argv[i + 1][2]));
-					}
 				}
-					
 
 				//outputFile
 				if (argv[i][1] == 'o')
@@ -95,21 +69,51 @@ int main(int argc, char * argv[])
 
 	std::fstream fout(outputFile,std::fstream::out);
 
+	//outputs
+	int c = 0;
+	std::vector<float> flout;
+	std::vector<IQElement> iqout;
+	std::vector<size_t> stout;
+
 	switch (mode)
 	{
 		case ('i'):
 			{
 				auto input = InputFromFile<IQElement>(fin1);
-				ProceedIQInput(input, fout, mode2);
+				
 				break;
 			}
 
 		case ('f'):
 		{
 			auto input = InputFromFile<float>(fin1);
-			ProceedFlInput(input, fout, mode2,param);
+
+			Tasks::diff(input, flout);
+
 			break;
 		}
+	}
+
+
+	//output
+	if (c)
+	{
+		std::cout << c << "\n";
+	}
+	else if (!flout.empty())
+	{
+		for (size_t i = 0; i != flout.size(); ++i)
+			fout << flout[i] << "\n";
+	}
+	else if (!iqout.empty())
+	{
+		for (size_t i = 0; i != iqout.size(); ++i)
+			fout << iqout[i];
+	}
+	else if (!stout.empty())
+	{
+		for (size_t i = 0; i != stout.size(); ++i)
+			fout << stout[i] << "\n";
 	}
 
 	return 0;

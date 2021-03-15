@@ -30,6 +30,11 @@ struct IQElement
 		return *this;
 	}
 
+	float Magnitude() const
+	{
+		return sqrtf(I * I + Q * Q);
+	}
+
 	IQElement GetConjugated() const
 	{
 		return IQElement(I, -Q);
@@ -77,6 +82,11 @@ inline std::ostream & operator<<(std::ostream & s, const IQElement & e)
 {
 	s << e.Re << " " << e.Im << "\n";
 	return s;
+}
+
+bool operator > (const IQElement & e1, const IQElement & e2)
+{
+	return e1.Magnitude() > e2.Magnitude();
 }
 
 typedef IQElement IQF;

@@ -1,9 +1,7 @@
 #pragma once
 #include <vector>
 #include "demolib\DemodulateLibTypes.h"
-
-void ProceedIQInput(std::vector<IQElement> & input, std::fstream & fout, char mode);
-void ProceedFlInput(const std::vector<float> & input, std::fstream & fout, char mode,float param);
+#include "demolib\Tasks.hpp"
 
 template<typename T>
 std::vector<T> InputFromFile(std::fstream & in)
@@ -21,3 +19,4 @@ std::vector<T> InputFromFile(std::fstream & in)
 
 	return vec;
 }
+
