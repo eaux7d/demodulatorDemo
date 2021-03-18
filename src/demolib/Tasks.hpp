@@ -18,6 +18,7 @@ namespace Tasks
 				std::cerr << "M should be represented as 2^N! \n";
 				return false;
 			}
+			c /= 2;
 		}
 
 		return true;

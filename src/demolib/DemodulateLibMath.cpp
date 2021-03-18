@@ -1,5 +1,6 @@
 #include "DemodulateLibMath.h"
 #include <cmath>
+#include "Tasks.hpp"
 
 void DemodulateAm(std::vector <float> & output, std::vector<IQElement> & source)
 {
@@ -41,3 +42,4 @@ void ApplyFilter(std::vector<IQElement> & src, const float * filter, const int &
 		src[i] = e;
 	}
 }
+

@@ -7,6 +7,23 @@
 #include "exe/ProceedInput.h"
 #include "demolib/Tasks.hpp"
 
+void TestFindLocalPeaks()
+{
+	std::vector<float> in_vec;
+	std::vector<size_t> idx;
+
+	in_vec.resize(10000);
+
+	for (size_t i = 0; i != in_vec.size(); ++i)
+		in_vec[i] = 2.0f * sinf(2 * PI_f * i / 2500.0f) + 0.4f * cosf(2 * PI_f * i / 500.0f);
+
+	Tasks::FindLocalPeaks(in_vec, idx, 250, 0.2f);
+
+	for (size_t i = 0; i != idx.size(); ++i)
+		std::cout << idx[i] << "\n";
+
+}
+
 int main(int argc, char * argv[])
 {
 	//Input
@@ -68,19 +85,28 @@ int main(int argc, char * argv[])
 	}
 
 	std::fstream fout(outputFile,std::fstream::out);
+	std::fstream fout2("input.txt", std::fstream::out);
+
+	fout.precision(12);
 
 	//outputs
 	int c = 0;
 	std::vector<float> flout;
+	std::vector<float> iout;
 	std::vector<IQElement> iqout;
 	std::vector<size_t> stout;
 
 	switch (mode)
 	{
-		case ('i'):
+		case ('q'):
 			{
 				auto input = InputFromFile<IQElement>(fin1);
 				
+				//Tasks::rectpulse(input, iqout, 4);
+				iqout.resize(input.size());
+				for (size_t i = 0; i != input.size(); ++i)
+					iqout[i] = input[i];
+
 				break;
 			}
 
@@ -88,10 +114,34 @@ int main(int argc, char * argv[])
 		{
 			auto input = InputFromFile<float>(fin1);
 
-			Tasks::diff(input, flout);
+			//Tasks::diff(input, flout);
+			//c = Tasks::count_more_than(input, 115.2695f);
+			//Tasks::FindLocalPeaks(input, stout, 640, 6.0f);
+
+			//for (size_t i = 0; i != input.size(); ++i)
+				//fout2 << input[i] << "\n";
 
 			break;
 		}
+
+		case ('i'):
+		{
+			auto input = InputFromFile<int>(fin1);
+
+			//Tasks::psk_mod(input, iqout, 8);
+			iout.resize(input.size());
+			for (size_t i = 0; i != input.size(); ++i)
+				iout[i] = input[i];
+
+			break;
+		}
+
+		case ('t'):
+		{
+			TestFindLocalPeaks();
+			break;
+		}
+
 	}
 
 
@@ -105,6 +155,11 @@ int main(int argc, char * argv[])
 		for (size_t i = 0; i != flout.size(); ++i)
 			fout << flout[i] << "\n";
 	}
+	else if (!iout.empty())
+	{
+		for (size_t i = 0; i != iout.size(); ++i)
+			fout << iout[i] << "\n";
+	}
 	else if (!iqout.empty())
 	{
 		for (size_t i = 0; i != iqout.size(); ++i)
@@ -115,6 +170,8 @@ int main(int argc, char * argv[])
 		for (size_t i = 0; i != stout.size(); ++i)
 			fout << stout[i] << "\n";
 	}
+
+
 
 	return 0;
 }
