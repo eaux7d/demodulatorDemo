@@ -4,6 +4,10 @@
 
 void DemodulateAm(std::vector <float> & output, std::vector<IQElement> & source)
 {
+	if (output.size() < source.size())
+	{
+		throw std::runtime_error("The output vector has wrong length!");
+	}
 
 	for (size_t i = 0; i != source.size(); ++i)
 	{
@@ -13,6 +17,11 @@ void DemodulateAm(std::vector <float> & output, std::vector<IQElement> & source)
 
 void DemodulateFm(std::vector <float> & output, std::vector<IQElement> & source)
 {
+	if (output.size() < source.size() - 1)
+	{
+		throw std::runtime_error("The output vector has wrong length!");
+	}
+
 	for (size_t i = 0; i != source.size() - 1; ++i)
 	{
 		output[i] = RotateElement(source[i + 1], source[i].GetConjugated()).getPhase();
