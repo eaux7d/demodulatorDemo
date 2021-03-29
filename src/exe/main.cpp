@@ -6,6 +6,7 @@
 #include "demolib/fir_sr1M_cut_50k_x2=150k.h"
 #include "exe/ProceedInput.h"
 #include "demolib/Tasks.hpp"
+#include "demolib/WaveFormat.h"
 
 void TestFindLocalPeaks()
 {
@@ -140,6 +141,13 @@ int main(int argc, char * argv[])
 		{
 			TestFindLocalPeaks();
 			break;
+		}
+
+		case ('a'):
+		{
+			WaveFile wav1;
+			wav1.ReadWav(filePath);
+			wav1.WriteFileInfo();
 		}
 
 	}

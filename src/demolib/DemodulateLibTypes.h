@@ -84,7 +84,7 @@ inline std::ostream & operator<<(std::ostream & s, const IQElement & e)
 	return s;
 }
 
-bool operator > (const IQElement & e1, const IQElement & e2)
+inline bool operator > (const IQElement & e1, const IQElement & e2)
 {
 	return e1.Magnitude() > e2.Magnitude();
 }
