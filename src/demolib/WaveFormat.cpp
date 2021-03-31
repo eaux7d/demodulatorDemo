@@ -3,6 +3,7 @@
 #include <string.h>
 #include "WaveFormat.h"
 
+
 size_t getSampleSize(FormatCode code)
 {
 	switch (code)
@@ -94,7 +95,7 @@ void WaveFile::ReadWav(const std::string & fname)
 		}
 	}
 
-	//if there is no data
+	//if subchunk2id is not 'data'
 	while (!((char)header.subchunk2Id == 'd' && (char)(header.subchunk2Id >> 8) == 'a' && (char)(header.subchunk2Id >> 16) == 't' && (char)(header.subchunk2Id >> 24) == 'a'))
 	{
 		in.read((char*)&header.subchunk2Id, sizeof(int32_t));
@@ -105,19 +106,26 @@ void WaveFile::ReadWav(const std::string & fname)
 
 	countSize = header.subchunk2Size / header.blockAlign;
 	duration = countSize /(float) header.sampleRate;
+
+	data = (void *) new int32_t[header.subchunk2Size / sizeof(int32_t)];
+
+	in.read((char *)data, header.subchunk2Size);
+
+	std::cout << "Done\n";
 }
 
-void WaveFile::WriteFileInfo() const
+
+
+void WaveFile::ReadFileInfo() const
 {
 	std::cout << "--Wav File Information--\n";
 	std::cout << "1. Full File Name: " << filename << "\n";
 	std::cout << "2. There are " << countSize << " samples in file and the type of sample is " << getSampleType(fmt)<<"\n";
-	std::cout << "3. There are " << header.numChannels << " channels in file (" << ((header.numChannels == 0) ? "Mono" : "Stereo") << " Mode) \n";
+	std::cout << "3. There are " << header.numChannels << " channels in file (" << ((header.numChannels == 1) ? "Mono" : "Stereo") << " Mode) \n";
 	std::cout << "4. File frequency is " << header.sampleRate << "\n";
 	std::cout << "5. There are " << header.bitsPerSample << "bits per sample for all channels\n";
 	std::cout << "6. File duration is " << duration << " s\n";
 
-	char buf[32];
 	std::cout << "\n--Header stuff--\n";
 
 	std::cout << "1. Chunk Id: ";
@@ -152,7 +160,46 @@ void WaveFile::WriteFileInfo() const
 
 }
 
-void WaveFile::WriteWaveFile(const std::ofstream & fout) const
-{
 
+
+void WaveFile::WriteWaveFile(std::ofstream & fout) const
+{
+	//Write Header
+	fout.write((char *)this, sizeof(*this));
+
+	//WriteData
+	fout.write((char *)data, header.subchunk2Size);
+}
+
+
+void WaveFile::UpdateWav(size_t datasizebytes, int16_t audioFormat, int16_t numChannels, int32_t sampleRate, int32_t byteRate, int16_t bitsPerSample, void * newdata)
+{
+	header.chunkId = 0x52494646;
+	header.chunkSize = datasizebytes + 44 - 8; //for pcm
+	header.format = 0x57415645;
+	header.subchunk1Id = 0x666d7420;
+
+	header.audioFormat = audioFormat;
+	header.subchunk1Size = 16;//for pcm! fix
+
+	header.numChannels = numChannels;
+	header.sampleRate = sampleRate;
+	header.byteRate = byteRate;
+
+	header.bitsPerSample = bitsPerSample;
+	header.blockAlign = header.byteRate / header.sampleRate;
+
+	header.subchunk2Id = 0x64617461;
+
+	if (header.subchunk2Size != datasizebytes)
+	{
+		header.subchunk2Size = datasizebytes;
+
+		if(data)
+			delete[] data;
+	}
+
+	data = (void *) new int32_t[header.subchunk2Size / sizeof(int32_t)];
+
+	memcpy(data, newdata, header.subchunk2Size);
 }

@@ -147,7 +147,9 @@ int main(int argc, char * argv[])
 		{
 			WaveFile wav1;
 			wav1.ReadWav(filePath);
-			wav1.WriteFileInfo();
+			wav1.ReadFileInfo();
+			//wav1.GetWaveData();
+			//auto vec = wav1.GetWaveData<std::vector<std::pair<int8_t, int8_t>>>();
 		}
 
 	}

@@ -34,9 +34,18 @@ struct WaveFileHeader
 
 struct WaveFile
 {
+	WaveFile() :data(0) { }
+	~WaveFile() { if (data) delete[] ((float*) data); }
+
 	void ReadWav(const std::string & filename);
-	void WriteFileInfo() const;
-	void WriteWaveFile(const std::ofstream & fout) const;
+	void ReadFileInfo() const;
+	void WriteWaveFile(std::ofstream & fout) const;
+	void UpdateWav(size_t filesizebytes, int16_t audioFormat, int16_t numChannels, int32_t sampleRate, int32_t byteRate, int16_t bitsPerSample, void * newdata);
+
+
+
+private:
+	template <typename T> std::vector<T> PrepareData() const;
 
 private:
 	WaveFileHeader header;
@@ -47,3 +56,17 @@ private:
 	size_t countSize;
 	FormatCode fmt;
 };
+
+
+
+template<typename T>
+inline std::vector<T> WaveFile::PrepareData() const
+{
+	std::vector<T> vec;
+	vec.resize(header.subchunk2Size / sizeof(T));
+	memcpy(&vec[0], data, header.subchunk2Size);
+
+	return vec;
+}
+
+
