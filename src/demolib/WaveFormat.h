@@ -35,7 +35,7 @@ struct WaveFileHeader
 struct WaveFile
 {
 	WaveFile() :data(0) { }
-	~WaveFile() { if (data) delete[] ((float*) data); }
+	~WaveFile() { if (data) delete[] data; data = nullptr; }
 
 	void ReadWav(const std::string & filename);
 	void ReadFileInfo() const;

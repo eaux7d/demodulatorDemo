@@ -101,8 +101,23 @@ void WaveFile::ReadWav(const std::string & fname)
 		in.read((char*)&header.subchunk2Id, sizeof(int32_t));
 	}
 
+
+	int32_t tempSubchunk2Size;
+
 	//read the data size
-	in.read((char*)&header.subchunk2Size, sizeof(int32_t));
+	in.read((char*)&tempSubchunk2Size, sizeof(int32_t));
+
+	if (data)
+	{
+		if (header.subchunk2Size != tempSubchunk2Size)
+		{
+			delete[] data;
+			data = nullptr;
+		}
+	}
+
+	header.subchunk2Size = tempSubchunk2Size;
+
 
 	countSize = header.subchunk2Size / header.blockAlign;
 	duration = countSize /(float) header.sampleRate;
@@ -195,8 +210,12 @@ void WaveFile::UpdateWav(size_t datasizebytes, int16_t audioFormat, int16_t numC
 	{
 		header.subchunk2Size = datasizebytes;
 
-		if(data)
+		if (data) 
+		{
 			delete[] data;
+			data = nullptr;
+		}
+			
 	}
 
 	data = (void *) new int32_t[header.subchunk2Size / sizeof(int32_t)];
