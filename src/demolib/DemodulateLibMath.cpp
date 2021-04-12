@@ -22,14 +22,20 @@ void DemodulateFm(std::vector <float> & output, std::vector<IQElement> & source)
 		throw std::runtime_error("The output vector has wrong length!");
 	}
 
+	std::cout << "ins:\n";
 	for (size_t i = 0; i != source.size() - 1; ++i)
 	{
 		output[i] = RotateElement(source[i + 1], source[i].GetConjugated()).getPhase();
+		//std::cout << source[i + 1];
+		//std::cout << RotateElement(source[i + 1], source[i].GetConjugated());
 	}
+	std::cout << "out\n";
 }
 
 IQElement RotateElement(const IQElement & a, const IQElement & b)
 {
+	std::cout << a.I * b.I - a.Q * b.Q << "\n";
+	std::cout << a.I * b.I + a.Q * b.Q << "\n";
 	return IQElement(a.I * b.I - a.Q * b.Q, a.Q * b.I + a.I * b.Q);
 }
 

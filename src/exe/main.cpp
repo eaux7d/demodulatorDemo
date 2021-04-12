@@ -5,7 +5,7 @@
 #include "demolib/DemodulateLibMath.h" 
 #include "demolib/fir_sr1M_cut_50k_x2=150k.h"
 #include "exe/ProceedInput.h"
-#include "demolib/Tasks.hpp"
+//#include "demolib/Tasks.hpp"
 #include "demolib/WaveFormat.h"
 
 void TestFindLocalPeaks()
@@ -139,7 +139,7 @@ int main(int argc, char * argv[])
 
 		case ('t'):
 		{
-			TestFindLocalPeaks();
+			//TestFindLocalPeaks();
 			break;
 		}
 
@@ -150,6 +150,33 @@ int main(int argc, char * argv[])
 			wav1.ReadFileInfo();
 			//wav1.GetWaveData();
 			//auto vec = wav1.GetWaveData<std::vector<std::pair<int8_t, int8_t>>>();
+		}
+
+		case('h'):
+		{
+			std::vector<IQF> vec = 
+			{ 
+				//		I(t)		Q(t)
+				IQF(	1.53f,		-9.88f	),
+				IQF(	-3.72f,		9.28f	),
+				IQF(	6.84f,		-7.28f	),
+				IQF(	-9.73f,		2.28f	),
+				IQF(	8.06f,		5.91f	),
+				IQF(	2.54f,		-9.67f	),
+				IQF(	-9.65f,		-2.58f	),
+				IQF(	-6.33f,		7.73f	),
+				IQF(	0.13f,		9.99f	),
+				IQF(	2.46f,		9.69f	)
+			};
+
+			std::vector<float> dst;
+			dst.resize(vec.size());
+
+			DemodulateFm(dst, vec);
+
+			std::cout << "\n";
+			for (int i = 0; i != dst.size(); ++i)
+				std::cout << dst[i] << "\n";
 		}
 
 	}

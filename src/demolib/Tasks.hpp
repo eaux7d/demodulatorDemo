@@ -7,7 +7,7 @@
 //this namespace consists of functions for real projects
 namespace Tasks
 {
-	bool if_baseof_two(size_t M)
+	inline bool if_baseof_two(size_t M)
 	{
 		size_t c = M;
 
@@ -83,7 +83,7 @@ namespace Tasks
 	}
 
 	//the output shoud have size that at least is the same as source's size
-	void psk_mod(const std::vector<int> & v_in, std::vector<IQF> & v_out, size_t M)
+	inline void psk_mod(const std::vector<int> & v_in, std::vector<IQF> & v_out, size_t M)
 	{
 		//checks
 		{
@@ -113,7 +113,7 @@ namespace Tasks
 
 	}
 
-	void FindLocalPeaks(const std::vector<float> & v_in, std::vector<size_t> & idx_peak, size_t len_win, float level)
+	inline void FindLocalPeaks(const std::vector<float> & v_in, std::vector<size_t> & idx_peak, size_t len_win, float level)
 	{
 		if (v_in.size() < 2 * len_win)
 		{
