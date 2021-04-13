@@ -267,6 +267,7 @@ __pycache__/
 #Output test files
 *.txt
 
+!Comments.txt
 !CMakeLists.txt
 #*.vcxproj
 #*.filters
